@@ -112,4 +112,78 @@
     }
   }, true)
 
+  /**
+   * Scrool with ofset on links with a class name .scrollto
+   */
+   on('click', '.scrollto', function(e) {
+    if (select(this.hash)) {
+      e.preventDefault()
+
+      let navbar = select('#navbar')
+      if (navbar.classList.contains('navbar-mobile')) {
+        navbar.classList.remove('navbar-mobile')
+        let navbarToggle = select('.mobile-nav-toggle')
+        navbarToggle.classList.toggle('bi-list')
+        navbarToggle.classList.toggle('bi-x')
+      }
+      scrollto(this.hash)
+    }
+  }, true)
+
+  /**
+   * Scroll with ofset on page load with hash links in the url
+   */
+  window.addEventListener('load', () => {
+    if (window.location.hash) {
+      if (select(window.location.hash)) {
+        scrollto(window.location.hash)
+      }
+    }
+  });
+
+  /**
+   * Menu isotope and filter
+   */
+   window.addEventListener('load', () => {
+    let menuContainer = select('.menu-container');
+    if (menuContainer) {
+      let menuIsotope = new Isotope(menuContainer, {
+        itemSelector: '.menu-item',
+        layoutMode: 'fitRows'
+      });
+
+      let menuFilters = select('#menu-flters li', true);
+
+      on('click', '#menu-flters li', function(e) {
+        e.preventDefault();
+        menuFilters.forEach(function(el) {
+          el.classList.remove('filter-active');
+        });
+        this.classList.add('filter-active');
+
+        menuIsotope.arrange({
+          filter: this.getAttribute('data-filter')
+        });
+        menuIsotope.on('arrangeComplete', function() {
+          AOS.refresh()
+        });
+      }, true);
+    }
+
+  });
+
+
+  
+  /**
+   * Animation on scroll
+   */
+   window.addEventListener('load', () => {
+    AOS.init({
+      duration: 1000,
+      easing: 'ease-in-out',
+      once: true,
+      mirror: false
+    })
+  });
+
 })()
