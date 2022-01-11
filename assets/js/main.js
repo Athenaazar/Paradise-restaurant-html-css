@@ -144,7 +144,7 @@
   /**
    * Menu isotope and filter
    */
-   window.addEventListener('load', () => {
+  window.addEventListener('load', () => {
     let menuContainer = select('.menu-container');
     if (menuContainer) {
       let menuIsotope = new Isotope(menuContainer, {
